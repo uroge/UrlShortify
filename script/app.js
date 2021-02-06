@@ -34,6 +34,15 @@ const clearInput = () => {
   userInput.value = '';
 }
 
+const addCopyHandler = (text) => {
+  
+  navigator.clipboard.writeText(text).then(function() {
+    console.log('Async: Copying to clipboard was successful!');
+  }, function(err) {
+    console.error('Async: Could not copy text: ', err);
+  });
+}
+
 const renderNewLink = (url, shorterUrl) => {
   const newLinkEl = document.createElement('li');
   newLinkEl.className = 'links-li';
@@ -49,7 +58,7 @@ const renderNewLink = (url, shorterUrl) => {
                 <a href="${shorterUrl}" target="_blank" class="shorter-link">${shorterUrl}</a>
               </span>
               <span class="button-p">
-                <a href="#" class="copy-btn btn">Copy</a>
+                <a href="#" class="copy-btn btn" id="copyBtn">Copy</a>
               </span>
             </div>
           </div>
@@ -58,6 +67,9 @@ const renderNewLink = (url, shorterUrl) => {
   `;
   const listRoot = document.getElementById('links-list');
   listRoot.append(newLinkEl);
+  let linkToCopy = newLinkEl.querySelector('.shorter-link');
+  const copyBtn =  newLinkEl.querySelector('#copyBtn');
+  copyBtn.addEventListener('click', addCopyHandler.bind(this, linkToCopy));
 };
 
 async function addHandler() {
