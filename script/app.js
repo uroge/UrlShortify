@@ -1,6 +1,8 @@
 const shortenBtn = document.getElementById('input-btn');
 const userInput = document.querySelector('.input-sh');
 
+const loader = document.querySelector('.loader');
+
 const links = [];
 // const url = new URL("https://api.shrtco.de/v2/shorten?url=example.org/very/long/link.html");
 
@@ -35,7 +37,6 @@ const clearInput = () => {
 }
 
 const addCopyHandler = (text) => {
-  
   navigator.clipboard.writeText(text).then(function() {
     console.log('Async: Copying to clipboard was successful!');
   }, function(err) {
@@ -74,7 +75,9 @@ const renderNewLink = (url, shorterUrl) => {
 
 async function addHandler() {
   const link = userInput.value;
+  loader.style.display = 'block';
   const shorterLink = await fetchPosts(link);
+  loader.style.display = 'none';
 
   if(!isURL(link)){
       alert('Plese enter valid url');
